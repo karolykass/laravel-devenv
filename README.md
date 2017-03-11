@@ -1,4 +1,4 @@
-# Howto build a Laravel development environment
+# How to build a Laravel development environment
 
 My personal notes on creating a local Laravel development environment.
 
