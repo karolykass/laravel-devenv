@@ -2,6 +2,18 @@
 
 My personal notes on creating a local Laravel development environment.
 
+## Table of Contents
+=================
+* [Table of Contents](#table-of-contents)
+* [Laravel Homestead](#laravel-homestead)
+  * [macOS](#macos)
+    * [Prerequisites](#prerequisites)
+    * [The list of used commands in terminal](#the-list-of-used-commands-in-terminal)
+    * [The whole terminal screen history in a file](#the-whole-terminal-screen-history-in-a-file)
+    * [The result](#the-result)
+  * [Linux](#linux)
+    * [Prerequisites](#prerequisites-1)
+
 ## Laravel Homestead
 
 Laravel's official development environment (vagrant/virtualbox)<br />
