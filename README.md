@@ -22,11 +22,11 @@ Useful urls:<br />
 
 #### The list of used commands in terminal
 
-- laravel_vagrant_commands.txt
+- [laravel_vagrant_commands.txt](https://github.com/karolykass/laravel-devenv/blob/master/macOS/laravel_vagrant_commands.txt)
 
 #### The whole terminal screen history in a file
 
-- laravel_vagrant_stdin_stdout.txt
+- [laravel_vagrant_stdin_stdout.txt](https://github.com/karolykass/laravel-devenv/blob/master/macOS/laravel_vagrant_stdin_stdout.txt)
 
 #### The result
 
