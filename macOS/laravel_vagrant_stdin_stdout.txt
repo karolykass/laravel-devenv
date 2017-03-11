@@ -1,0 +1,495 @@
+user@host:[~]:
+$ system_profiler SPSoftwareDataType | grep "System Version\|Kernel Version"
+      System Version: macOS 10.12.3 (16D32)
+      Kernel Version: Darwin 16.4.0
+user@host:[~]:
+$ /Applications/VirtualBox.app/Contents/MacOS/VBoxManage --version
+5.1.16r113841
+user@host:[~]:
+$ vagrant --version
+Vagrant 1.9.2
+user@host:[~]:
+$ vagrant box add --provider virtualbox laravel/homestead
+==> box: Loading metadata for box 'laravel/homestead'
+    box: URL: https://atlas.hashicorp.com/laravel/homestead
+==> box: Adding box 'laravel/homestead' (v2.0.0) for provider: virtualbox
+    box: Downloading: https://atlas.hashicorp.com/laravel/boxes/homestead/versions/2.0.0/providers/virtualbox.box
+==> box: Successfully added box 'laravel/homestead' (v2.0.0) for 'virtualbox'!
+user@host:[~]:
+$ vagrant box list | grep laravel
+laravel/homestead     (virtualbox, 2.0.0)
+user@host:[~]:
+$ cd ~
+user@host:[~]:
+$ git clone https://github.com/laravel/homestead.git Homestead
+Cloning into 'Homestead'...
+remote: Counting objects: 2072, done.
+remote: Compressing objects: 100% (31/31), done.
+remote: Total 2072 (delta 11), reused 0 (delta 0), pack-reused 2041
+Receiving objects: 100% (2072/2072), 363.21 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (1194/1194), done.
+user@host:[~]:
+$ cd Homestead
+user@host:[~/Homestead]:
+$ git branch
+* master
+user@host:[~/Homestead]:
+$ git checkout v5.0.1
+Note: checking out 'v5.0.1'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at af6ba52... 🚑 🔖 💎 Tagging 5.0.1
+user@host:[~/Homestead]:
+$ git branch
+* (HEAD detached at v5.0.1)
+  master
+user@host:[~/Homestead]:
+$ bash init.sh
+Homestead initialized!
+user@host:[~/Homestead]:
+$ cat Homestead.yaml
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Code
+      to: /home/vagrant/Code
+
+sites:
+    - map: homestead.app
+      to: /home/vagrant/Code/Laravel/public
+
+databases:
+    - homestead
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+user@host:[~/Homestead]:
+$ mkdir ~/Code
+user@host:[~/Homestead]:
+$ cat /etc/hosts | grep "laravel\|homestead"
+# laravel BEGIN
+192.168.10.10	homestead.app
+# laravel END
+user@host:[~/Homestead]:
+$ vagrant up
+Bringing machine 'homestead-7' up with 'virtualbox' provider...
+==> homestead-7: Importing base box 'laravel/homestead'...
+==> homestead-7: Matching MAC address for NAT networking...
+==> homestead-7: Checking if box 'laravel/homestead' is up to date...
+==> homestead-7: Setting the name of the VM: homestead-7
+==> homestead-7: Clearing any previously set network interfaces...
+==> homestead-7: Preparing network interfaces based on configuration...
+    homestead-7: Adapter 1: nat
+    homestead-7: Adapter 2: hostonly
+==> homestead-7: Forwarding ports...
+    homestead-7: 80 (guest) => 8000 (host) (adapter 1)
+    homestead-7: 443 (guest) => 44300 (host) (adapter 1)
+    homestead-7: 3306 (guest) => 33060 (host) (adapter 1)
+    homestead-7: 5432 (guest) => 54320 (host) (adapter 1)
+    homestead-7: 8025 (guest) => 8025 (host) (adapter 1)
+    homestead-7: 27017 (guest) => 27017 (host) (adapter 1)
+    homestead-7: 22 (guest) => 2222 (host) (adapter 1)
+==> homestead-7: Running 'pre-boot' VM customizations...
+==> homestead-7: Booting VM...
+==> homestead-7: Waiting for machine to boot. This may take a few minutes...
+    homestead-7: SSH address: 127.0.0.1:2222
+    homestead-7: SSH username: vagrant
+    homestead-7: SSH auth method: private key
+    homestead-7: 
+    homestead-7: Vagrant insecure key detected. Vagrant will automatically replace
+    homestead-7: this with a newly generated keypair for better security.
+    homestead-7: 
+    homestead-7: Inserting generated public key within guest...
+    homestead-7: Removing insecure key from the guest if it's present...
+    homestead-7: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> homestead-7: Machine booted and ready!
+[homestead-7] GuestAdditions versions on your host (5.1.16) and guest (5.1.10) do not match.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+dkms is already the newest version (2.2.0.3-2ubuntu11.3).
+linux-headers-4.4.0-51-generic is already the newest version (4.4.0-51.72).
+0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
+Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+mount: /dev/loop0 is write-protected, mounting read-only
+Installing Virtualbox Guest Additions 5.1.16 - guest version is 5.1.10
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 5.1.16 Guest Additions for Linux...........
+VirtualBox Guest Additions installer
+Removing installed version 5.1.10 of VirtualBox Guest Additions...
+Copying additional installer modules ...
+Installing additional modules ...
+vboxadd.sh: Building Guest Additions kernel modules.
+vboxadd.sh: You should restart your guest to make sure the new modules are actually used.
+vboxadd.sh: Starting the VirtualBox Guest Additions.
+
+Could not find the X.Org or XFree86 Window System, skipping.
+
+
+==> homestead-7: Checking for guest additions in VM...
+==> homestead-7: Setting hostname...
+==> homestead-7: Configuring and enabling network interfaces...
+==> homestead-7: Mounting shared folders...
+    homestead-7: /vagrant => /Users/user/Homestead
+    homestead-7: /home/vagrant/Code => /Users/user/Code
+==> homestead-7: Running provisioner: file...
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: inline script
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: inline script
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: /var/folders/f5/40ffvzyd37lb2gx_js90qdp40000gp/T/vagrant-shell20170311-8482-1kjgtkk.sh
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Creating Site: homestead.app
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Restarting Nginx
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Creating MySQL Database: homestead
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Creating Postgres Database: homestead
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Clear Variables
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: script: Update Composer
+==> homestead-7: Updating to version 1.4.1 (stable channel).
+==> homestead-7:    
+==> homestead-7:  Downloading: Connecting...
+==> homestead-7: 
+==> homestead-7:  Downloading: 100%
+==> homestead-7:          
+==> homestead-7: 
+==> homestead-7: Use composer self-update --rollback to return to version 1.3.2
+==> homestead-7: Running provisioner: shell...
+    homestead-7: Running: /var/folders/f5/40ffvzyd37lb2gx_js90qdp40000gp/T/vagrant-shell20170311-8482-12m5dr5.sh
+user@host:[~/Homestead]:
+$ vagrant ssh
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.4.0-51-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+3 packages can be updated.
+0 updates are security updates.
+
+
+vagrant@homestead:~$ cd Code
+vagrant@homestead:~/Code$ composer create-project laravel/laravel Laravel --prefer-dist
+Installing laravel/laravel (v5.4.15)
+  - Installing laravel/laravel (v5.4.15): Downloading (100%)         
+Created project in Laravel
+> php -r "file_exists('.env') || copy('.env.example', '.env');"
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 59 installs, 0 updates, 0 removals
+  - Installing symfony/polyfill-mbstring (v1.3.0): Loading from cache
+  - Installing symfony/var-dumper (v3.2.6): Downloading (100%)         
+  - Installing jakub-onderka/php-console-color (0.1): Downloading (100%)          - Installing jakub-onderka/php-console-highlighter (v0.3.2):Downloading (100%)  - Installing dnoegel/php-xdg-base-dir (0.1): Downloading (100%)         
+  - Installing nikic/php-parser (v3.0.5): Downloading (100%)         
+  - Installing psr/log (1.0.2): Loading from cache
+  - Installing symfony/debug (v3.2.6): Downloading (100%)         
+  - Installing symfony/console (v3.2.6): Downloading (100%)         
+  - Installing psy/psysh (v0.8.2): Downloading (100%)         
+  - Installing vlucas/phpdotenv (v2.4.0): Downloading (100%)         
+  - Installing symfony/css-selector (v3.2.6): Downloading (100%)         
+  - Installing tijsverkoyen/css-to-inline-styles (2.2.0): Downloading (100%)      - Installing symfony/routing (v3.2.6): Downloading (100%)         
+  - Installing symfony/process (v3.2.6): Downloading (100%)         
+  - Installing symfony/http-foundation (v3.2.6): Downloading (100%)         
+  - Installing symfony/event-dispatcher (v3.2.6): Downloading (100%)         
+  - Installing symfony/http-kernel (v3.2.6): Downloading (100%)         
+  - Installing symfony/finder (v3.2.6): Downloading (100%)         
+  - Installing swiftmailer/swiftmailer (v5.4.6): Downloading (100%)         
+  - Installing paragonie/random_compat (v2.0.9): Downloading (100%)         
+  - Installing ramsey/uuid (3.5.2): Downloading (100%)         
+  - Installing symfony/translation (v3.2.6): Downloading (100%)         
+  - Installing nesbot/carbon (1.22.1): Downloading (100%)         
+  - Installing mtdowling/cron-expression (v1.2.0): Downloading (100%)         
+  - Installing monolog/monolog (1.22.0): Downloading (100%)         
+  - Installing league/flysystem (1.0.35): Downloading (100%)         
+  - Installing erusev/parsedown (1.6.1): Downloading (100%)         
+  - Installing doctrine/inflector (v1.1.0): Loading from cache
+  - Installing laravel/framework (v5.4.15): Downloading (100%)         
+  - Installing laravel/tinker (v1.0.0): Downloading (100%)         
+  - Installing fzaninotto/faker (v1.6.0): Downloading (100%)         
+  - Installing hamcrest/hamcrest-php (v1.2.2): Downloading (100%)         
+  - Installing mockery/mockery (0.9.9): Downloading (100%)         
+  - Installing symfony/yaml (v3.2.6): Downloading (100%)         
+  - Installing sebastian/version (2.0.1): Downloading (100%)         
+  - Installing sebastian/resource-operations (1.0.0): Downloading (100%)          - Installing sebastian/recursion-context (2.0.0): Downloading (100%)         
+  - Installing sebastian/object-enumerator (2.0.1): Downloading (100%)         
+  - Installing sebastian/global-state (1.1.1): Downloading (100%)         
+  - Installing sebastian/exporter (2.0.0): Downloading (100%)         
+  - Installing sebastian/environment (2.0.0): Downloading (100%)         
+  - Installing sebastian/diff (1.4.1): Downloading (100%)         
+  - Installing sebastian/comparator (1.2.4): Downloading (100%)         
+  - Installing doctrine/instantiator (1.0.5): Downloading (100%)         
+  - Installing phpunit/php-text-template (1.2.1): Downloading (100%)         
+  - Installing phpunit/phpunit-mock-objects (3.4.3):Downloading (100%)         )
+  - Installing phpunit/php-timer (1.0.9): Downloading (100%)         
+  - Installing phpunit/php-file-iterator (1.4.2): Downloading (100%)         
+  - Installing sebastian/code-unit-reverse-lookup (1.0.1): Downloading (100%)     - Installing phpunit/php-token-stream (1.4.11): Downloading (100%)         
+  - Installing phpunit/php-code-coverage (4.0.7): Downloading (100%)         
+  - Installing webmozart/assert (1.2.0): Downloading (100%)         
+  - Installing phpdocumentor/reflection-common (1.0): Downloading (100%)          - Installing phpdocumentor/type-resolver (0.2.1): Downloading (100%)         
+  - Installing phpdocumentor/reflection-docblock (3.1.1): Downloading (100%)      - Installing phpspec/prophecy (v1.7.0): Downloading (100%)         
+  - Installing myclabs/deep-copy (1.6.0): Downloading (100%)         
+  - Installing phpunit/phpunit (5.7.15): Downloading (100%)         
+symfony/var-dumper suggests installing ext-symfony_debug ()
+symfony/console suggests installing symfony/filesystem ()
+psy/psysh suggests installing ext-pdo-sqlite (The doc command requires SQLite to work.)
+psy/psysh suggests installing hoa/console (A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit.)
+symfony/routing suggests installing doctrine/annotations (For using the annotation loader)
+symfony/routing suggests installing symfony/config (For using the all-in-one router or any loader)
+symfony/routing suggests installing symfony/dependency-injection (For loading routes from a service)
+symfony/routing suggests installing symfony/expression-language (For using expression matching)
+symfony/event-dispatcher suggests installing symfony/dependency-injection ()
+symfony/http-kernel suggests installing symfony/browser-kit ()
+symfony/http-kernel suggests installing symfony/class-loader ()
+symfony/http-kernel suggests installing symfony/config ()
+symfony/http-kernel suggests installing symfony/dependency-injection ()
+paragonie/random_compat suggests installing ext-libsodium (Provides a modern crypto API that can be used to generate random bytes.)
+ramsey/uuid suggests installing ircmaxell/random-lib (Provides RandomLib for use with the RandomLibAdapter)
+ramsey/uuid suggests installing ext-libsodium (Provides the PECL libsodium extension for use with the SodiumRandomGenerator)
+ramsey/uuid suggests installing ext-uuid (Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator)
+ramsey/uuid suggests installing moontoast/math (Provides support for converting UUID to 128-bit integer (in string form).)
+ramsey/uuid suggests installing ramsey/uuid-doctrine (Allows the use of Ramsey\Uuid\Uuid as Doctrine field type.)
+ramsey/uuid suggests installing ramsey/uuid-console (A console application for generating UUIDs with ramsey/uuid)
+symfony/translation suggests installing symfony/config ()
+monolog/monolog suggests installing aws/aws-sdk-php (Allow sending log messages to AWS services like DynamoDB)
+monolog/monolog suggests installing doctrine/couchdb (Allow sending log messages to a CouchDB server)
+monolog/monolog suggests installing ext-amqp (Allow sending log messages to an AMQP server (1.0+ required))
+monolog/monolog suggests installing ext-mongo (Allow sending log messages to a MongoDB server)
+monolog/monolog suggests installing graylog2/gelf-php (Allow sending log messages to a GrayLog2 server)
+monolog/monolog suggests installing mongodb/mongodb (Allow sending log messages to a MongoDB server via PHP Driver)
+monolog/monolog suggests installing php-amqplib/php-amqplib (Allow sending log messages to an AMQP server using php-amqplib)
+monolog/monolog suggests installing php-console/php-console (Allow sending log messages to Google Chrome)
+monolog/monolog suggests installing rollbar/rollbar (Allow sending log messages to Rollbar)
+monolog/monolog suggests installing ruflin/elastica (Allow sending log messages to an Elastic Search server)
+monolog/monolog suggests installing sentry/sentry (Allow sending log messages to a Sentry server)
+league/flysystem suggests installing league/flysystem-aws-s3-v2 (Allows you to use S3 storage with AWS SDK v2)
+league/flysystem suggests installing league/flysystem-aws-s3-v3 (Allows you to use S3 storage with AWS SDK v3)
+league/flysystem suggests installing league/flysystem-azure (Allows you to use Windows Azure Blob storage)
+league/flysystem suggests installing league/flysystem-cached-adapter (Flysystem adapter decorator for metadata caching)
+league/flysystem suggests installing league/flysystem-copy (Allows you to use Copy.com storage)
+league/flysystem suggests installing league/flysystem-dropbox (Allows you to use Dropbox storage)
+league/flysystem suggests installing league/flysystem-eventable-filesystem (Allows you to use EventableFilesystem)
+league/flysystem suggests installing league/flysystem-rackspace (Allows you to use Rackspace Cloud Files)
+league/flysystem suggests installing league/flysystem-sftp (Allows you to use SFTP server storage via phpseclib)
+league/flysystem suggests installing league/flysystem-webdav (Allows you to use WebDAV storage)
+league/flysystem suggests installing league/flysystem-ziparchive (Allows you to use ZipArchive adapter)
+laravel/framework suggests installing aws/aws-sdk-php (Required to use the SQS queue driver and SES mail driver (~3.0).)
+laravel/framework suggests installing doctrine/dbal (Required to rename columns and drop SQLite columns (~2.5).)
+laravel/framework suggests installing guzzlehttp/guzzle (Required to use the Mailgun and Mandrill mail drivers and the ping methods on schedules (~6.0).)
+laravel/framework suggests installing league/flysystem-aws-s3-v3 (Required to use the Flysystem S3 driver (~1.0).)
+laravel/framework suggests installing league/flysystem-rackspace (Required to use the Flysystem Rackspace driver (~1.0).)
+laravel/framework suggests installing nexmo/client (Required to use the Nexmo transport (~1.0).)
+laravel/framework suggests installing pda/pheanstalk (Required to use the beanstalk queue driver (~3.0).)
+laravel/framework suggests installing predis/predis (Required to use the redis cache and queue drivers (~1.0).)
+laravel/framework suggests installing pusher/pusher-php-server (Required to use the Pusher broadcast driver (~2.0).)
+laravel/framework suggests installing symfony/dom-crawler (Required to use most of the crawler integration testing tools (~3.2).)
+laravel/framework suggests installing symfony/psr-http-message-bridge (Required to psr7 bridging features (0.2.*).)
+sebastian/global-state suggests installing ext-uopz (*)
+phpunit/php-code-coverage suggests installing ext-xdebug (^2.5.1)
+phpunit/phpunit suggests installing phpunit/php-invoker (~1.1)
+phpunit/phpunit suggests installing ext-xdebug (*)
+Writing lock file
+Generating autoload files
+> Illuminate\Foundation\ComposerScripts::postUpdate
+> php artisan optimize
+Generating optimized class loader
+The compiled services file has been removed.
+> php artisan key:generate
+Application key [base64:EYCCP5+d8xPrw8KNkPYhEvVLiJrJqUqRm8yTdKeIy20=] set successfully.
+vagrant@homestead:~/Code$ cd Laravel
+vagrant@homestead:~/Code/Laravel$ ls -l
+total 148
+drwxr-xr-x 1 vagrant vagrant    238 Mar  3 14:39 app
+-rwxr-xr-x 1 vagrant vagrant   1646 Mar  3 14:39 artisan
+drwxr-xr-x 1 vagrant vagrant    170 Mar  3 14:39 bootstrap
+-rw-rw-r-- 1 vagrant vagrant   1263 Mar  3 14:39 composer.json
+-rw-r--r-- 1 vagrant vagrant 121396 Mar 11 18:12 composer.lock
+drwxr-xr-x 1 vagrant vagrant    442 Mar  3 14:39 config
+drwxr-xr-x 1 vagrant vagrant    204 Mar  3 14:39 database
+-rw-rw-r-- 1 vagrant vagrant   1279 Mar  3 14:39 package.json
+-rw-rw-r-- 1 vagrant vagrant   1055 Mar  3 14:39 phpunit.xml
+drwxr-xr-x 1 vagrant vagrant    306 Mar  3 14:39 public
+-rw-rw-r-- 1 vagrant vagrant   2906 Mar  3 14:39 readme.md
+drwxr-xr-x 1 vagrant vagrant    170 Mar  3 14:39 resources
+drwxr-xr-x 1 vagrant vagrant    204 Mar  3 14:39 routes
+-rw-rw-r-- 1 vagrant vagrant    563 Mar  3 14:39 server.php
+drwxr-xr-x 1 vagrant vagrant    170 Mar  3 14:39 storage
+drwxr-xr-x 1 vagrant vagrant    204 Mar  3 14:39 tests
+drwxr-xr-x 1 vagrant vagrant   1088 Mar 11 18:13 vendor
+-rw-rw-r-- 1 vagrant vagrant    555 Mar  3 14:39 webpack.mix.js
+vagrant@homestead:~/Code/Laravel$ cd public
+vagrant@homestead:~/Code/Laravel/public$ ls -l
+total 12
+drwxr-xr-x 1 vagrant vagrant  102 Mar  3 14:39 css
+-rw-rw-r-- 1 vagrant vagrant    0 Mar  3 14:39 favicon.ico
+-rw-rw-r-- 1 vagrant vagrant 1782 Mar  3 14:39 index.php
+drwxr-xr-x 1 vagrant vagrant  102 Mar  3 14:39 js
+-rw-rw-r-- 1 vagrant vagrant   24 Mar  3 14:39 robots.txt
+-rw-rw-r-- 1 vagrant vagrant  914 Mar  3 14:39 web.config
+vagrant@homestead:~/Code/Laravel/public$ cat index.php
+<?php
+
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
+
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels nice to relax.
+|
+*/
+
+require __DIR__.'/../bootstrap/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+*/
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
+vagrant@homestead:~/Code/Laravel/public$ cd
+vagrant@homestead:~$ exit
+logout
+Connection to 127.0.0.1 closed.
+user@host:[~/Homestead]:
+$ cd ~/Code/Laravel/public
+user@host:[~/Code/Laravel/public]:
+$ ls -l
+total 24
+drwxr-xr-x  3 user  staff   102 Mar  3 15:39 css
+-rw-rw-r--  1 user  staff     0 Mar  3 15:39 favicon.ico
+-rw-rw-r--  1 user  staff  1782 Mar  3 15:39 index.php
+drwxr-xr-x  3 user  staff   102 Mar  3 15:39 js
+-rw-rw-r--  1 user  staff    24 Mar  3 15:39 robots.txt
+-rw-rw-r--  1 user  staff   914 Mar  3 15:39 web.config
+user@host:[~/Code/Laravel/public]:
+$ cat index.php
+<?php
+
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
+ */
+
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels nice to relax.
+|
+*/
+
+require __DIR__.'/../bootstrap/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+*/
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
+user@host:[~/Code/Laravel/public]:
+$ 

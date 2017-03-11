@@ -1,0 +1,58 @@
+
+system_profiler SPSoftwareDataType | grep "System Version\|Kernel Version"
+
+/Applications/VirtualBox.app/Contents/MacOS/VBoxManage --version
+
+vagrant --version
+
+vagrant box add --provider virtualbox laravel/homestead
+
+vagrant box list | grep laravel
+
+cd ~
+
+git clone https://github.com/laravel/homestead.git Homestead
+
+cd Homestead
+
+git branch
+
+git checkout v5.0.1
+
+git branch
+
+bash init.sh
+
+cat Homestead.yaml 
+
+mkdir ~/Code
+
+cat /etc/hosts | grep "laravel\|homestead"
+
+vagrant up
+
+vagrant ssh
+
+cd Code
+
+composer create-project laravel/laravel Laravel --prefer-dist
+
+cd Laravel
+
+ls -l
+
+cd public
+
+ls -l
+
+cat index.php
+
+cd
+
+exit
+
+cd ~/Code/Laravel/public
+
+ls -l
+
+cat index.php
