@@ -30,7 +30,8 @@ Useful urls:<br />
 
 #### The result
 
-[homestead.app](http://homestead.app)
+[homestead.app](http://homestead.app)<br />
+![alt text](https://github.com/karolykass/laravel-devenv/blob/master/macOS/laravel_homesteadapp_safari_screenshot.png "Laravel homestead.app Safari Screenshot")
 
 ### Linux
 
