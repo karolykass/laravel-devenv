@@ -3,8 +3,6 @@
 My personal notes on creating a local Laravel development environment.
 
 ## Table of Contents
-=================
-* [Table of Contents](#table-of-contents)
 * [Laravel Homestead](#laravel-homestead)
   * [macOS](#macos)
     * [Prerequisites](#prerequisites)
